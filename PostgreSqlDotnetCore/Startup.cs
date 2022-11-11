@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using PostgreSqlDotnetCore.Data;
+using Prometheus;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -52,9 +53,8 @@ namespace PostgreSqlDotnetCore
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
+            app.UseHttpMetrics();
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -64,6 +64,7 @@ namespace PostgreSqlDotnetCore
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapMetrics();
             });
         }
     }
